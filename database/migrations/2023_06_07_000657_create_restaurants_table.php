@@ -16,13 +16,13 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('name',20);
-            $table->string('name_katakana');
-            $table->integer('review');
-            $table->string('food_picture');
-            $table->string('map_url');
-            $table->string('tel');
-            $table->string('comment',300);
+            $table->string('name',20)->nullable();
+            $table->string('name_katakana')->nullable();
+            $table->integer('review')->nullable();
+            $table->string('food_picture')->nullable();
+            $table->string('map_url')->nullable();
+            $table->string('tel')->nullable();
+            $table->string('comment',300)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

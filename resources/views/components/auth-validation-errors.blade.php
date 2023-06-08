@@ -3,7 +3,7 @@
 @if ($errors->any())
     <div {{ $attributes }}>
         <div class="font-medium text-red-600">
-            {{ __('Whoops! Something went wrong.') }}
+            {{ __('入力形式が間違っているか未入力の項目があります') }}
         </div>
 
         <ul class="mt-3 list-disc list-inside text-sm text-red-600">
