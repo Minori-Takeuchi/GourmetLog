@@ -137,33 +137,39 @@ class RestaurantController extends Controller
     public function confirm(Request $request)
     {
         // マップ表示
-        $decodedUrl = urldecode($request->map_url);
-        $placeUrl = parse_url($decodedUrl, PHP_URL_PATH);
-        $queryString = parse_url($decodedUrl, PHP_URL_QUERY);
-        parse_str($queryString, $queryParams);
-        $address = $queryParams['q'] ?? '';
-        $convertedUrl = 'https://maps.google.co.jp/maps?q=' . $address . '&output=embed&t=m';
+        if($request->map_url) {
+            $decodedUrl = urldecode($request->map_url);
+            $placeUrl = parse_url($decodedUrl, PHP_URL_PATH);
+            $queryString = parse_url($decodedUrl, PHP_URL_QUERY);
+            parse_str($queryString, $queryParams);
+            $address = $queryParams['q'] ?? '';
+            $convertedUrl = 'https://maps.google.co.jp/maps?q=' . $address . '&output=embed&t=m';
+        } else {
+            $convertedUrl = null;
+        }
 
         // 画像を仮ストレージへ保存
         if ($request->hasFile('food_picture')) {
             $file = $request->file('food_picture');
             $temporaryImagePath = $file->store('temporary');
-            $foodPictureTempPath = $temporaryImagePath ? asset($temporaryImagePath) : null;
+            $foodPictureTempPath = asset($temporaryImagePath);
+        } else {
+            $foodPictureTempPath = null;
         }
 
         $restaurant = [
             'id' => $request->id,
             'name' => $request->name,
             'name_katakana' => $request->name_katakana,
-            'review' => $request->review,
-            'food_picture' => $foodPictureTempPath ? $foodPictureTempPath : null,
+            'review' => $request->review ? $request->review : null,
+            'food_picture' => $foodPictureTempPath,
             'map_url' => $convertedUrl,
-            'tel' => $request->tel,
+            'tel' => $request->tel ? $request->tel : null,
             'comment' => $request->comment,
         ];
         
 
-        $categories = $request->input('categories', []);
+        $categories = $request->input('category_ids', []);
         $categoryData = Category::whereIn('id', $categories)->get();
 
         return view('restaurant.confirm', [
@@ -174,7 +180,11 @@ class RestaurantController extends Controller
 
     // 新規作成または更新
     public function upsert(Request $request)
-    {
+    {   
+        if($request->input('back') == 'back') {
+            return redirect('/restaurant/form')->withInput();
+        }
+
         $id = $request->input('id');
 
         // 画像のパスを変更する
@@ -194,36 +204,27 @@ class RestaurantController extends Controller
             'name_katakana' => $request->input('name_katakana'),
             'review' => $request->input('review'),  
             'map_url' => $request->input('map_url'),
+            'food_picture' => $newUrl,
             'tel' => $request->input('tel'), 
             'comment' => $request->input('comment'), 
         ];
 
-        // カテゴリーの処理
-        $categoryIds = $request->input('category_ids');
-        $categories = [];
-
-        foreach ($categoryIds as $categoryId) {
-            // カテゴリーモデルに対する処理を実装する必要があります
-            // 以下は例です
-            $category = Category::find($categoryId);
-            if ($category) {
-                $categories[] = $category;
-            }
-        }
 
         // idが存在する場合はアップデート、存在しない場合は新規作成
+        $categoryIds = $request->input('category_ids');
         if ($id) {
             $restaurant = Restaurant::find($id);
             if ($restaurant) {
                 $restaurant->update($restaurantData);
-                $restaurant->categories()->sync($categories);
+                $restaurant->categories()->sync($categoryIds);
             }
         } else {
             $restaurant = Restaurant::create($restaurantData);
-            $restaurant->categories()->attach($categories);
+            $restaurant->categories()->attach($categoryIds);
         }
 
-        // 必要なリダイレクト先を指定してください
-        return redirect()->route('restaurants.index');
+        return redirect()->route('top');
     }
+
+
 }

@@ -20,7 +20,9 @@
           <label for="categories">カテゴリー</label>
           @foreach($categories as $category)
           <div>
-            <input type="checkbox" name="categories[]" id="category_{{ $category->id }}" value="{{ $category->id }}" {{ isset($restaurant_categories) && in_array($category->id, $restaurant_categories->pluck('id')->toArray()) ? 'checked' : '' }}>
+            <input type="checkbox" name="category_ids[]" id="category_{{ $category->id }}" value="{{ $category->id }}"
+            {{ in_array($category->id, old('category_ids', [])) ? 'checked' : '' }}
+            {{ isset($restaurant_categories) && in_array($category->id, $restaurant_categories->pluck('id')->toArray()) ? 'checked' : '' }}>
             <label for="category_{{ $category->id }}">{{ $category->name }}</label>
           </div>
           @endforeach
@@ -30,7 +32,7 @@
           <label for="review">レビュー（最高：5/最低：1）</label>
           <select name="review" id="review">
             @for ($i = 5; $i >= 1; $i--)
-            <option value="{{ $i }}" {{ (old('review') ?? (isset($restaurant['review']) && $restaurant['review'] == $i)) ? 'selected' : '' }}>{{ $i }}</option>
+            <option value="{{ $i }}" {{ (old('review') ?? ($restaurant['review'] ?? null)) == $i ? 'selected' : '' }}>{{ $i }}</option>
             @endfor
           </select>
         </div>

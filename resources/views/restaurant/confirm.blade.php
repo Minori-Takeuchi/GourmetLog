@@ -6,29 +6,38 @@
     <div class="restaurant-form">
       <form  action="/restaurant/form/upsert" method="post">
         @csrf
+        <!-- 店名 -->
         <div class="restaurant-form-confirm">
           <p>店名：</p>
           <p>{{ $restaurant['name'] }}</p>
           <input type="hidden" name="name" value="{{ $restaurant['name'] }}">
         </div>
+
+        <!-- フリガナ -->
         <div class="restaurant-form-confirm">
           <p>フリガナ：</p>
           <p>{{ $restaurant['name_katakana'] }}</p>
           <input type="hidden" name="name_katakana" value="{{ $restaurant['name_katakana'] }}">
         </div>
+
+        <!-- カテゴリー -->
         <div class="restaurant-form-confirm">
           <p>カテゴリー：</p>
           @foreach($categories as $category)
           <p>{{ $category['name'] }}</p>
-          <input type="hidden" name="category_id" value="{{ $category['id'] }}">
+          <input type="hidden" name="category_ids[]" value="{{ $category['id'] }}">
           @endforeach
         </div>
+
+        <!-- レビュー -->
         <div class="restaurant-form-confirm">
           <p>レビュー：</p>
           <p>{{ $restaurant['review'] }}</p>
           <input type="hidden" name="review" value="{{ $restaurant['review'] }}">
         </div>
-        @if (isset($restaurant['food_picture']))
+
+        <!-- 料理写真 -->
+        @if (!empty($restaurant['food_picture']))
         <div class="restaurant-form-confirm">
           <p>料理写真：</p>
           <input type="hidden" name="food_picture" value="{{ $restaurant['food_picture'] }}">
@@ -38,6 +47,8 @@
           </div>
         </div>
         @endif
+
+        @if (!empty($restaurant['map_url']))
         <div class="restaurant-form-confirm">
           <p>Google Map：</p>
           <iframe
@@ -47,6 +58,7 @@
         </iframe>
         <input type="hidden" name="map_url" value="{{ $restaurant['map_url'] }}">
       </div>
+       @endif
       <div class="restaurant-form-confirm">
         <p>電話番号：</p>
         <p>{{ $restaurant['tel'] }}</p>
@@ -64,7 +76,8 @@
           <input type="hidden" name="id" value="{{ $restaurant['id'] }}">
         @endif
 
-        <button type="submit">保存する</button>
+        <button type="submit" name="action" value="submit">保存する</button>
+        <button type="submit" name="back" value="back">修正する</button>
       </form>
     </div>
 @endsection
