@@ -35,6 +35,15 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'temporary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage/app/public/temporary'),
+        ],
+        'image' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage/app/public/image'),
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
@@ -68,6 +77,8 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('temporary') => storage_path('app/public/temporary'),
+        public_path('image') => storage_path('app/public/image'),
     ],
 
 ];

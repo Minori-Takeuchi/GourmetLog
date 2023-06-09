@@ -8,7 +8,8 @@ Route::get('/restaurant/show/{id}', [RestaurantController::class, 'show'])->name
 Route::get('/restaurant/search', [RestaurantController::class, 'search'])->name('restaurant.search');
 Route::get('/restaurant/edit/{id}', [RestaurantController::class, 'edit'])->name('restaurant.edit');
 Route::get('/restaurant/form', [RestaurantController::class, 'form'])->name('restaurant.form');
-Route::get('/restaurant/form/confirm', [RestaurantController::class, 'confirm'])->name('restaurant.confirm');
+Route::post('/restaurant/form/confirm', [RestaurantController::class, 'confirm'])->name('restaurant.confirm');
+Route::post('/restaurant/form/upsert', [RestaurantController::class, 'upsert'])->name('restaurant.upsert');
 
 Route::get('/', function () {
     return view('welcome');

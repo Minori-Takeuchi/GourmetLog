@@ -5,6 +5,8 @@ use App\Models\Restaurant;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class RestaurantController extends Controller
 {
@@ -95,7 +97,7 @@ class RestaurantController extends Controller
         ]);
     }
 
-    // 編集画面へ
+    // 編集画面表示
     public function edit($id)
     {
         $restaurant = Restaurant::with(['categories'])->find($id);
@@ -134,24 +136,33 @@ class RestaurantController extends Controller
     // 確認画面表示
     public function confirm(Request $request)
     {
+        // マップ表示
         $decodedUrl = urldecode($request->map_url);
         $placeUrl = parse_url($decodedUrl, PHP_URL_PATH);
         $queryString = parse_url($decodedUrl, PHP_URL_QUERY);
         parse_str($queryString, $queryParams);
         $address = $queryParams['q'] ?? '';
-
         $convertedUrl = 'https://maps.google.co.jp/maps?q=' . $address . '&output=embed&t=m';
+
+        // 画像を仮ストレージへ保存
+        if ($request->hasFile('food_picture')) {
+            $file = $request->file('food_picture');
+            $temporaryImagePath = $file->store('temporary');
+            $foodPictureTempPath = $temporaryImagePath ? asset($temporaryImagePath) : null;
+        }
 
         $restaurant = [
             'id' => $request->id,
             'name' => $request->name,
             'name_katakana' => $request->name_katakana,
             'review' => $request->review,
-            'food_picture' => $request->food_picture,
+            'food_picture' => $foodPictureTempPath ? $foodPictureTempPath : null,
             'map_url' => $convertedUrl,
             'tel' => $request->tel,
             'comment' => $request->comment,
         ];
+        
+
         $categories = $request->input('categories', []);
         $categoryData = Category::whereIn('id', $categories)->get();
 
@@ -159,5 +170,60 @@ class RestaurantController extends Controller
             'restaurant' => $restaurant,
             'categories' => $categoryData
         ]);
+    }
+
+    // 新規作成または更新
+    public function upsert(Request $request)
+    {
+        $id = $request->input('id');
+
+        // 画像のパスを変更する
+        $url = $request->food_picture;
+        $appUrl = env('APP_URL');
+        $newUrl = str_replace($appUrl . '/temporary/', $appUrl . '/image/', $url);
+        $strageUrl = str_replace($appUrl , '', $url);
+        $newStrageUrl = str_replace($appUrl , '', $newUrl);
+        $oldPath = public_path($strageUrl);
+        $newPath = public_path($newStrageUrl);
+        File::move($oldPath, $newPath);
+        File::delete(public_path($oldPath));
+
+
+        $restaurantData = [
+            'name' => $request->input('name'),
+            'name_katakana' => $request->input('name_katakana'),
+            'review' => $request->input('review'),  
+            'map_url' => $request->input('map_url'),
+            'tel' => $request->input('tel'), 
+            'comment' => $request->input('comment'), 
+        ];
+
+        // カテゴリーの処理
+        $categoryIds = $request->input('category_ids');
+        $categories = [];
+
+        foreach ($categoryIds as $categoryId) {
+            // カテゴリーモデルに対する処理を実装する必要があります
+            // 以下は例です
+            $category = Category::find($categoryId);
+            if ($category) {
+                $categories[] = $category;
+            }
+        }
+
+        // idが存在する場合はアップデート、存在しない場合は新規作成
+        if ($id) {
+            $restaurant = Restaurant::find($id);
+            if ($restaurant) {
+                $restaurant->update($restaurantData);
+                $restaurant->categories()->sync($categories);
+            }
+        } else {
+            $restaurant = Restaurant::create($restaurantData);
+            $restaurant->categories()->attach($categories);
+        }
+
+        // 必要なリダイレクト先を指定してください
+        return redirect()->route('restaurants.index');
     }
 }

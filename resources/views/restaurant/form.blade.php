@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="restaurant-form">
-      <form  action="/restaurant/form/confirm" method="get">
+      <form  action="/restaurant/form/confirm" method="post" enctype="multipart/form-data">
         @csrf
         <div class="restaurant-form-input">
           <label for="name">店名</label>
@@ -34,15 +34,12 @@
             @endfor
           </select>
         </div>
+
+
         <div class="restaurant-form-input">
           <label for="food_picture">画像選択</label>
-          <input type="file" name="food_picture" id="food_picture">
+          <input type="file" name="food_picture" id="food_picture" >
         </div>
-        @if (isset($restaurant['food_picture']))
-        <div>
-          <img src="{{ $restaurant['food_picture'] }}" alt="既存の画像">
-        </div>
-        @endif
         <div class="restaurant-form-input">
           <label for="map_url">Google Map URL</label>
           <input type="text" name="map_url" id="map_url" value="{{ old('map_url') ?? (isset($restaurant['map_url']) ? $restaurant['map_url'] : '') }}">
