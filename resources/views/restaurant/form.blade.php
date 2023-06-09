@@ -4,18 +4,28 @@
 
 @section('content')
     <div class="restaurant-form">
-      <form  action="/restaurant/confirm" method="post">
+      <form  action="/restaurant/form/confirm" method="get">
         @csrf
         <div class="restaurant-form-input">
           <label for="name">店名</label>
           <input type="text" name="name" id="name"
           value="{{ old('name') ?? ($restaurant['name'] ?? '') }}">
-        </div> -->
+        </div>
         <div class="restaurant-form-input">
           <label for="name_katakana">フリガナ</label>
           <input type="text" name="name_katakana" id="name_katakana"
           value="{{ old('name_katakana') ?? (isset($restaurant['name_katakana']) ? $restaurant['name_katakana'] : '') }}">
         </div>
+        <div class="restaurant-form-input">
+          <label for="categories">カテゴリー</label>
+          @foreach($categories as $category)
+          <div>
+            <input type="checkbox" name="categories[]" id="category_{{ $category->id }}" value="{{ $category->id }}" {{ isset($restaurant_categories) && in_array($category->id, $restaurant_categories->pluck('id')->toArray()) ? 'checked' : '' }}>
+            <label for="category_{{ $category->id }}">{{ $category->name }}</label>
+          </div>
+          @endforeach
+        </div>
+        
         <div class="restaurant-form-input">
           <label for="review">レビュー（最高：5/最低：1）</label>
           <select name="review" id="review">
@@ -43,7 +53,8 @@
         </div>
         <div class="restaurant-form-input">
           <label for="comment">コメント</label>
-          <input type="text" name="comment" id="comment" value="{{ old('comment') ?? (isset($restaurant['comment']) ? $restaurant['comment'] : '') }}">
+          <textarea name="comment" id="comment">{{ old('comment') ?? (isset($restaurant['comment']) ? $restaurant['comment'] : '') }}</textarea>
+
         </div>
 
         <!-- 編集の場合 -->
