@@ -41,13 +41,25 @@ class RestaurantController extends Controller
     public function show($id)
     {
         $restaurant = Restaurant::with(['categories'])->find($id);
+
+        // マップ表示
+        if($restaurant->map_url) {
+            $decodedUrl = urldecode($restaurant->map_url);
+            $placeUrl = parse_url($decodedUrl, PHP_URL_PATH);
+            $queryString = parse_url($decodedUrl, PHP_URL_QUERY);
+            parse_str($queryString, $queryParams);
+            $address = $queryParams['q'] ?? '';
+            $convertedUrl = 'https://maps.google.co.jp/maps?q=' . $address . '&output=embed&t=m';
+        } else {
+            $convertedUrl = null;
+        }
         $formattedRestaurants = [
             'id' => $restaurant->id,
             'name' => $restaurant->name,
             'name_katakana' => $restaurant->name_katakana,
             'review' => $restaurant->review,
             'food_picture' => $restaurant->food_picture,
-            'map_url' => $restaurant->map_url,
+            'map_url' => $convertedUrl,
             'tel' => $restaurant->tel,
             'comment' => $restaurant->comment,
             'categories' => $restaurant->categories->map(function ($category) {

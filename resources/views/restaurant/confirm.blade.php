@@ -55,19 +55,19 @@
           width="500px" height="300px" frameborder="0"
           marginwidth="0" marginheight="0"
           src="{{ $restaurant['map_url'] }}">
-        </iframe>
-        <input type="hidden" name="map_url" value="{{ $restaurant['map_url'] }}">
-      </div>
-       @endif
-      <div class="restaurant-form-confirm">
-        <p>電話番号：</p>
-        <p>{{ $restaurant['tel'] }}</p>
-        <input type="hidden" name="tel" value="{{ $restaurant['tel'] }}">
-      </div>
-      <div class="restaurant-form-confirm">
-        <p>コメント：</p>
-        <p>{{ $restaurant['comment'] }}</p>
-        <input type="hidden" name="comment" value="{{ $restaurant['comment'] }}">
+          </iframe>
+          <input type="hidden" name="map_url" value="{{ $restaurant['map_url'] }}">
+        </div>
+        @endif
+        <div class="restaurant-form-confirm">
+          <p>電話番号：</p>
+          <p>{{ $restaurant['tel'] }}</p>
+          <input type="hidden" name="tel" value="{{ $restaurant['tel'] }}">
+        </div>
+        <div class="restaurant-form-confirm">
+          <p>コメント：</p>
+          <p>{{ $restaurant['comment'] }}</p>
+          <input type="hidden" name="comment" value="{{ $restaurant['comment'] }}">
         </div>
 
 
