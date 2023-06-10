@@ -10,6 +10,7 @@ Route::get('/restaurant/edit/{id}', [RestaurantController::class, 'edit'])->name
 Route::get('/restaurant/form', [RestaurantController::class, 'form'])->name('restaurant.form');
 Route::post('/restaurant/form/confirm', [RestaurantController::class, 'confirm'])->name('restaurant.confirm');
 Route::post('/restaurant/form/upsert', [RestaurantController::class, 'upsert'])->name('restaurant.upsert');
+Route::post('/restaurant/delete/{id}', [RestaurantController::class, 'delete'])->name('restaurant.delete');
 
 Route::get('/', function () {
     return view('welcome');

@@ -226,5 +226,11 @@ class RestaurantController extends Controller
         return redirect()->route('top');
     }
 
+    // 店舗情報削除
+    public function delete($id)
+    {
+        Restaurant::find($id)->delete();
+        return back();
+    }
 
 }
