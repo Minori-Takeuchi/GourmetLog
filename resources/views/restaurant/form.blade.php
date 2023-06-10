@@ -57,9 +57,8 @@
         </div>
 
         <!-- 編集の場合 -->
-        @if (isset($restaurant))
-          <input type="hidden" name="id" value="{{ $restaurant['id'] }}">
-        @endif
+        <input type="hidden" name="id" value="{{ old('id') ?? (isset($restaurant['id']) ? $restaurant['id'] : '')}}">
+
 
         <button type="submit">確認画面へ</button>
       </form>
