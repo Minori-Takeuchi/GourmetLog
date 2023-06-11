@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="dashboard">
-  ダッシュボード
+  <p>{{ $user_name }}　{{ $date }}</p>
+  <p>{{ $message }}</p>
 </div>
 @endsection

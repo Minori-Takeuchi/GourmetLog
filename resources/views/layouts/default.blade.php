@@ -24,7 +24,7 @@
       <div class="pt-4 pb-1 border-t border-gray-200">
         <a href="{{route('top')}}">お店リスト</a><br>
         <a href="{{route('restaurant.form')}}">お店登録/編集</a><br>
-        <a href="">カテゴリー管理</a>
+        <a href="{{route('category.top')}}">カテゴリー管理</a>
         <form action="/restaurant" method="get">
           @csrf
 

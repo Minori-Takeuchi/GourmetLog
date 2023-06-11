@@ -32,7 +32,7 @@ class RestaurantController extends Controller
             ];
         });
 
-        return view('restaurant/top', [
+        return view('restaurant/index', [
             'restaurants' => $formattedRestaurants,
         ]);
     }
@@ -104,7 +104,7 @@ class RestaurantController extends Controller
             ];
         });
 
-        return view('restaurant/top', [
+        return view('restaurant/index', [
             'restaurants' => $formattedRestaurants,
         ]);
     }
