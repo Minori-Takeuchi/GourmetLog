@@ -21,7 +21,7 @@ class CreateRestaurantsTable extends Migration
             $table->integer('review')->nullable();
             $table->string('food_picture')->nullable();
             $table->string('map_url')->nullable();
-            $table->string('tel')->nullable();
+            $table->bigInteger('tel')->nullable();
             $table->string('comment',300)->nullable();
             $table->timestamps();
             $table->softDeletes();

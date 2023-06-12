@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\Http\Requests\RestaurantRequest;
 
 
 class RestaurantController extends Controller
@@ -146,7 +147,7 @@ class RestaurantController extends Controller
     }
 
     // 確認画面表示
-    public function confirm(Request $request)
+    public function confirm(RestaurantRequest $request)
     {
         // マップ表示
         if($request->map_url) {
@@ -166,10 +167,19 @@ class RestaurantController extends Controller
             $temporaryImagePath = $file->store('temporary');
             $foodPictureTempPath = asset($temporaryImagePath);
         } else {
-            $foodPictureTempPath = null;
+            $id = $request->input('id');
+            if ($id) {
+                $existingRestaurant = Restaurant::find($id);
+                if ($existingRestaurant && $existingRestaurant->food_picture) {
+                    $foodPictureTempPath = $existingRestaurant->food_picture;
+                } else {
+                    $foodPictureTempPath = null;
+                }
+            } else {
+                $foodPictureTempPath = null;
+            }
         }
-
-        $restaurant = [
+            $restaurant = [
             'id' => $request->id,
             'name' => $request->name,
             'name_katakana' => $request->name_katakana,
@@ -190,8 +200,9 @@ class RestaurantController extends Controller
         ]);
     }
 
+
     // 新規作成または更新
-    public function upsert(Request $request)
+    public function upsert(RestaurantRequest $request)
     {   
         if($request->input('back') == 'back') {
             return redirect('/restaurant/form')->withInput();
@@ -199,17 +210,21 @@ class RestaurantController extends Controller
 
         $id = $request->input('id');
 
-        // 画像のパスを変更する
-        $url = $request->food_picture;
-        $appUrl = env('APP_URL');
-        $newUrl = str_replace($appUrl . '/temporary/', $appUrl . '/image/', $url);
-        $strageUrl = str_replace($appUrl , '', $url);
-        $newStrageUrl = str_replace($appUrl , '', $newUrl);
-        $oldPath = public_path($strageUrl);
-        $newPath = public_path($newStrageUrl);
-        File::move($oldPath, $newPath);
-        File::delete(public_path($oldPath));
+        // 画像のパスを変更する(ファイル選択がある場合は仮ストレージから移動)
+            $url = $request->food_picture;
+            $appUrl = env('APP_URL');
+            $newUrl = str_replace($appUrl . '/temporary/', $appUrl . '/image/', $url);
 
+            if ($url && strpos($url, $appUrl . '/temporary/') !== false) {
+                $strageUrl = str_replace($appUrl, '', $url);
+                $newStrageUrl = str_replace($appUrl, '', $newUrl);
+                $oldPath = public_path($strageUrl);
+                $newPath = public_path($newStrageUrl);
+                File::move($oldPath, $newPath);
+                File::delete(public_path($oldPath));
+            } else {
+                $newUrl = $url;
+            }
 
         $restaurantData = [
             'name' => $request->input('name'),

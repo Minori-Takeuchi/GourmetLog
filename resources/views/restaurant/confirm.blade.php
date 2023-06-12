@@ -43,7 +43,6 @@
           <input type="hidden" name="food_picture" value="{{ $restaurant['food_picture'] }}">
           <div>
             <img src="{{ $restaurant['food_picture'] }}" alt="画像" width="300" height="auto">
-            <p>{{ $restaurant['food_picture'] }}</p>
           </div>
         </div>
         @endif
