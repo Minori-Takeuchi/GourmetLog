@@ -47,19 +47,28 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-    $category = Category::find($request->id);
-    if ($category) {
-        $category->update([
+        $userId = Auth::id();
+        $category = Category::find($request->id);
+        
+        if ($category && $category->user_id === $userId) {
+            $category->update([
             'name' => $request->name,
-        ]);
-        }
-    return redirect('/category');
+            ]);
+        }   
+
+        return redirect('/category');
     }
 
     // カテゴリー削除
     public function delete($id)
     {
-        Category::find($id)->delete();
+        $userId = Auth::id();
+        $category = Category::find($id);
+
+        if ($category && $category->user_id === $userId) {
+            $category->delete();
+        }
+
         return back();
     }
 }

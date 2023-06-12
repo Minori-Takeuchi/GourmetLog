@@ -27,13 +27,17 @@
             <td>
               <form action="/category/edit/{{$category['id']}}" method="get">
                 @csrf
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 h-12 text-white py-2 px-4 rounded-full">編集</button>
+                <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 h-12 text-white py-2 px-4 rounded-full @if ($category['user_id'] != Auth::user()->id) opacity-50 cursor-not-allowed @endif"
+                @if ($category['user_id'] != Auth::user()->id) disabled @endif>編集</button>
               </form>
             </td>
             <td>
               <form action="/category/delete/{{$category['id']}}" method="post" onsubmit="return confirm('削除してもよろしいですか？')">
                 @csrf
-                <button type="submit" class="bg-red-500 hover:bg-red-700 h-12 text-white py-2 px-4 rounded-full">削除</button>
+                <button type="submit"
+                class="bg-red-500 hover:bg-red-700 h-12 text-white py-2 px-4 rounded-full @if ($category['user_id'] != Auth::user()->id) opacity-50 cursor-not-allowed @endif"
+                @if ($category['user_id'] != Auth::user()->id) disabled @endif>削除</button>
               </form>
             </td>
           </tr>

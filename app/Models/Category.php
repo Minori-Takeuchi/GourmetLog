@@ -29,4 +29,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Restaurant::class, 'category_tags')->using(CategoryTag::class);
     }
+    
+    public function user()
+    {
+        return $this->BelongsTo(User::class);
+    }
 }

@@ -49,4 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Restaurant::class,'user_id');
     }
 
+    public function categories()
+    {
+        return $this->hasMany(Category::class,'user_id');
+    }
+
 }
