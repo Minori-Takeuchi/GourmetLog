@@ -2,9 +2,10 @@
 
 @section('browser-ttl', 'ダッシュボード')
 
+@section('title', $user_name . 'さん　' . $date )
+
 @section('content')
 <div class="dashboard">
-  <p>{{ $user_name }}　{{ $date }}</p>
   <p>{{ $message }}</p>
 </div>
 @endsection

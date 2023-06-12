@@ -19,7 +19,7 @@
       <h1 class="text-center w-full inline-block text-xl font-bold py-8">Gourmet Log</h1>
       <div class="text-center w-full border-t border-b border-gray-200 text-xl py-2">MENU</div>
       <div class="w-full">
-        <form method="GET" action="{{ route('top') }} w-full">
+        <form method="GET" action="{{ route('top') }}">
           @csrf
           <button type="submit" class="hover:text-gray-500 hover:bg-white taxt-center w-full py-2 h-12">お店リスト</button>
         </form>
@@ -40,8 +40,8 @@
       </div>
     </div>
     <div class="w-5/6 absolute inset-y-0 right-0">
-      <h1 class="ttl">@yield('title')</h1>
-      <div class="wrap">@yield('content')</div>
+      <h1 class="text-xl font-bold p-8">@yield('title')</h1>
+      <div class="wrap w-full p-8 flex justify-center">@yield('content')</div>
     </div>
   </div>
 </body>
