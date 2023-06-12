@@ -6,46 +6,40 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('browser-ttl')</title>
-  <!-- <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-  <script src="{{ asset('js/main.js') }}"></script> -->
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
   <link href="{{ mix('css/app.css') }}" rel="stylesheet">
   <script src="{{ mix('js/app.js') }}"></script>
   
 </head>
 
-<body>
-  <div class="container flex flex-row">
-    <div class="manu">
-      <h1>Gourmet Log</h1>
-      <div>MENU</div>
-      <div class="pt-4 pb-1 border-t border-gray-200">
-        <a href="{{route('top')}}">お店リスト</a><br>
-        <a href="{{route('restaurant.form')}}">お店登録/編集</a><br>
-        <a href="{{route('category.top')}}">カテゴリー管理</a>
-        <form action="/restaurant" method="get">
+<body class="w-screen h-screen">
+  <div class="flex flex-row w-full h-full relative">
+    <div class="manu w-1/6 bg-teal-400 text-white fixed h-full relative">
+      <h1 class="text-center w-full inline-block text-xl font-bold py-8">Gourmet Log</h1>
+      <div class="text-center w-full border-t border-b border-gray-200 text-xl py-2">MENU</div>
+      <div class="w-full">
+        <form method="GET" action="{{ route('top') }} w-full">
           @csrf
-
+          <button type="submit" class="hover:text-gray-500 hover:bg-white taxt-center w-full py-2 h-12">お店リスト</button>
         </form>
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-            </div>
-            <div class="mt-3 space-y-1">
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('LogOut') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+        <form method="GET" action="{{route('restaurant.form')}}">
+          @csrf
+          <button type="submit" class="hover:text-gray-500 hover:bg-white taxt-center w-full py-2">お店登録/編集</button>
+        </form>
+        <form method="GET" action="{{route('category.top')}}">
+          @csrf
+          <button type="submit" class="hover:text-gray-500 hover:bg-white taxt-center w-full py-2">カテゴリー管理</button>
+        </form>
+        <form method="POST" action="{{ route('logout') }}"
+        onsubmit="return confirm('ログアウトしますか？')" 
+        class="absolute bottom-10 w-full">
+          @csrf
+          <button type="submit" class="hover:text-gray-500 hover:bg-white taxt-center w-full py-2">{{ Auth::user()->name }}</button>
+        </form>
+      </div>
     </div>
-    <div>
+    <div class="w-5/6 absolute inset-y-0 right-0">
       <h1 class="ttl">@yield('title')</h1>
       <div class="wrap">@yield('content')</div>
     </div>
