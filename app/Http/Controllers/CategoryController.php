@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -45,8 +47,12 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(CategoryRequest $request)
     {
+        if($request->input('back') == 'back') {
+            return redirect('/category');
+        }
+
         $userId = Auth::id();
         $category = Category::find($request->id);
         

@@ -500,6 +500,9 @@ video {
 }.my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
+}.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }.-ml-px {
   margin-left: -1px;
 }.-mr-2 {
@@ -512,6 +515,8 @@ video {
   margin-bottom: 1.25rem;
 }.mb-8 {
   margin-bottom: 2rem;
+}.ml-0 {
+  margin-left: 0px;
 }.ml-1 {
   margin-left: 0.25rem;
 }.ml-12 {
@@ -1138,6 +1143,8 @@ video {
   }
 }@media (min-width: 640px) {.sm\:ml-6 {
     margin-left: 1.5rem;
+  }.sm\:ml-64 {
+    margin-left: 16rem;
   }.sm\:block {
     display: block;
   }.sm\:flex {

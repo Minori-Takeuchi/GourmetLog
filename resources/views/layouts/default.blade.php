@@ -61,7 +61,7 @@
    </div>
 </aside>
 
-    <div class="inset-y-0 right-0">
+    <div class="inset-y-0 right-0 sm:ml-64 ml-0">
       <div class="wrap w-full flex justify-center">@yield('content')</div>
     </div>
   </div>
