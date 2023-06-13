@@ -29,10 +29,20 @@
           <tr>
             <td class="border px-4 py-2 text-center text-sm">{{ $restaurant['id'] }}</td>
             <td class="border px-4 py-2 text-center text-sm">{{ $restaurant['name'] }}</td>
-            @foreach($restaurant['categories'] as $category)
-            <td class="border px-4 py-2 text-center text-sm">{{ $category['category_name'] }}</td>
+            <td class="border px-4 py-2 text-center text-sm">
+              @foreach($restaurant['categories'] as $category)
+              <p>{{ $category['category_name'] }}</p>
               @endforeach
-              <td class="border px-4 py-2 text-center text-sm">{{ $restaurant['review'] }}</td>
+            </td>
+              <td class="border px-4 py-2 text-center">
+                @for ($i = 1; $i <= 5; $i++)
+                @if ($i <= $restaurant['review'])
+                <span class="text-yellow-400 text-sm">&#9733;</span>
+                @else
+                <span class="text-gray-500 text-sm">&#9733;</span> {{-- グレーの星マーク --}}
+                @endif
+                @endfor
+              </td>
               <td class="border px-4 py-2 text-center text-sm">
                 @if (strlen($restaurant['comment']) > 25)
                 {{ mb_substr($restaurant['comment'], 0, 25) . '...' }}

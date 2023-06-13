@@ -18,7 +18,7 @@ class RestaurantFactory extends Factory
             'review' => $this->faker->numberBetween(1, 5),
             'food_picture' => $this->faker->imageUrl(),
             'map_url' => 'https://www.google.com/maps?q=' . $this->faker->latitude . ',' . $this->faker->longitude,
-            'tel' => $this->faker->numberBetween(10000000000, 99999999999),
+            'tel' => $this->faker->numberBetween(1000000000, 9999999999),
             'comment' => 'とてもおいしいお店でした。また行きたいです。',
         ];
     }

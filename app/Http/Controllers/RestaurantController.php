@@ -43,6 +43,15 @@ class RestaurantController extends Controller
     {
         $restaurant = Restaurant::with(['categories'])->find($id);
 
+        // 電話番号の整形
+        if($restaurant->tel) {
+            $tel = $restaurant->tel;
+            $formattedTel = substr_replace($tel, '-', 3, 0);
+            $formattedTel = substr_replace($formattedTel, '-', 7, 0);
+        } else {
+            $formattedTel = null;
+        }
+
         // マップ表示
         if($restaurant->map_url) {
             $decodedUrl = urldecode($restaurant->map_url);
@@ -61,7 +70,7 @@ class RestaurantController extends Controller
             'review' => $restaurant->review,
             'food_picture' => $restaurant->food_picture,
             'map_url' => $convertedUrl,
-            'tel' => $restaurant->tel,
+            'tel' => $formattedTel,
             'comment' => $restaurant->comment,
             'categories' => $restaurant->categories->map(function ($category) {
                 return [
