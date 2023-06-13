@@ -14,27 +14,27 @@
       <table class="table-auto mt-8">
         <thead>
           <tr>
-            <th class="border px-4 py-2 text-center text-sm">ID</th>
-            <th class="border px-4 py-2 text-center text-sm">店名</th>
-            <th class="border px-4 py-2 text-center text-sm">カテゴリー</th>
-            <th class="border px-4 py-2 text-center text-sm">レビュー</th>
-            <th class="border px-4 py-2 text-center text-sm">コメント</th>
-            <th class="border px-4 py-2 text-center text-sm">詳細</th>
-            <th class="border px-4 py-2 text-center text-sm">編集</th>
-            <th class="border px-4 py-2 text-center text-sm">削除</th>
+            <th class="border px-2 py-2 text-center text-sm">ID</th>
+            <th class="border px-2 py-2 text-center text-sm">店名</th>
+            <th class="border px-2 py-2 text-center text-sm">カテゴリー</th>
+            <th class="border px-2 py-2 text-center text-sm">レビュー</th>
+            <th class="border px-2 py-2 text-center text-sm">コメント</th>
+            <th class="border px-2 py-2 text-center text-sm">詳細</th>
+            <th class="border px-2 py-2 text-center text-sm">編集</th>
+            <th class="border px-2 py-2 text-center text-sm">削除</th>
           </tr>
         </thead>
         <tbody>
           @foreach($restaurants as $restaurant)
           <tr>
-            <td class="border px-4 py-2 text-center text-sm">{{ $restaurant['id'] }}</td>
-            <td class="border px-4 py-2 text-center text-sm">{{ $restaurant['name'] }}</td>
-            <td class="border px-4 py-2 text-center text-sm">
+            <td class="border py-2 text-center text-sm">{{ $restaurant['id'] }}</td>
+            <td class="border py-2 text-center text-sm">{{ $restaurant['name'] }}</td>
+            <td class="border px-2 py-2 text-center text-sm">
               @foreach($restaurant['categories'] as $category)
               <p>{{ $category['category_name'] }}</p>
               @endforeach
             </td>
-              <td class="border px-4 py-2 text-center">
+              <td class="border py-2 text-center">
                 @for ($i = 1; $i <= 5; $i++)
                 @if ($i <= $restaurant['review'])
                 <span class="text-yellow-400 text-sm">&#9733;</span>
@@ -43,29 +43,29 @@
                 @endif
                 @endfor
               </td>
-              <td class="border px-4 py-2 text-center text-sm">
-                @if (strlen($restaurant['comment']) > 25)
-                {{ mb_substr($restaurant['comment'], 0, 25) . '...' }}
+              <td class="border px-2 py-2 text-center text-sm">
+                @if (strlen($restaurant['comment']) > 10)
+                {{ mb_substr($restaurant['comment'], 0, 10) . '...' }}
                 @else
                 {{ $restaurant['comment'] }}
                 @endif
               </td>
-              <td class="border px-4 py-2 text-center text-sm">
+              <td class="border py-2 px-2 text-center text-sm">
                 <form action="/restaurant/show/{{$restaurant['id']}}" method="get">
                   @csrf
-                  <button type="submit" class="bg-green-500 hover:bg-green-700 w-16 text-white py-2 px-4 rounded-full text-sm">詳細</button>
+                  <button type="submit" class="bg-green-500 hover:bg-green-700 w-16 text-white py-2 rounded-full text-sm">詳細</button>
                 </form>
               </td>
-              <td class="border px-4 py-2 text-center text-sm">
+              <td class="border py-2 px-2 text-center text-sm">
                 <form action="/restaurant/edit/{{$restaurant['id']}}" method="get">
                   @csrf
-                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 w-16 text-white py-2 px-4 rounded-full text-sm">編集</button>
+                  <button type="submit" class="bg-blue-500 hover:bg-blue-700 w-16 text-white py-2 rounded-full text-sm">編集</button>
                 </form>
               </td>
-              <td class="border px-4 py-2 text-center text-sm">
+              <td class="border py-2 px-2 text-center text-sm">
                 <form action="/restaurant/delete/{{$restaurant['id']}}" method="post" onsubmit="return confirm('削除してもよろしいですか？')">
                   @csrf
-                  <button type="submit" class="bg-red-500 hover:bg-red-700 w-16 text-white py-2 px-4 rounded-full text-sm">削除</button>
+                  <button type="submit" class="bg-red-500 hover:bg-red-700 w-16 text-white py-2 rounded-full text-sm">削除</button>
                 </form>
               </td>
             </tr>

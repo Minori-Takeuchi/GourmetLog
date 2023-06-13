@@ -28,7 +28,7 @@ class RestaurantRequest extends FormRequest
             'name_katakana' => 'required|regex:/^[ア-ン゛゜ァ-ォャ-ョー]+$/u',
             'category_ids' => 'required',
             'review' => 'required|integer|between:1,5',
-            'tel' => 'regex:/^[0-9]+$/',
+            'tel' => 'nullable|regex:/^[0-9]+$/',
             'comment' => 'required|max:300',
         ];
     }
