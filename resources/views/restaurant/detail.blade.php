@@ -32,7 +32,7 @@
                 @if ($i <= $restaurant['review'])
                 <span class="text-yellow-400 text-xl">&#9733;</span>
                 @else
-                <span class="text-gray-500 text-xl">&#9733;</span> {{-- グレーの星マーク --}}
+                <span class="text-gray-500 text-xl">&#9733;</span>
                 @endif
                 @endfor
             </td>
