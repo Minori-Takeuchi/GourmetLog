@@ -36,6 +36,7 @@ tailwindcss
 (UsersTableSeederへ登録済み)  
 ゲスト1　 メールアドレス：gest@gest.com　パスワード：password  
 ゲスト2　 メールアドレス：gest2@gest.com　パスワード：password  
+ゲスト3　 メールアドレス：gest3@gest.com　パスワード：password  
 
 
 
