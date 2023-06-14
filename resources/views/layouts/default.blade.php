@@ -18,7 +18,7 @@
 <body class="w-screen h-screen relative">
 
 
-      
+<!-- サイドバー用ボタン -->
 <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -26,6 +26,7 @@
    </svg>
 </button>
 
+<!-- サイドバー -->
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0 " aria-label="Sidebar">
    <div class="h-full py-4 overflow-y-auto bg-teal-400 text-white text-center">
     <h1 class="text-center w-full inline-block text-xl font-bold py-8">Gourmet Log</h1>
@@ -61,6 +62,7 @@
    </div>
 </aside>
 
+<!-- コンテンツ -->
     <div class="inset-y-0 right-0 sm:ml-64 ml-0">
       <div class="wrap w-full flex justify-center">@yield('content')</div>
     </div>

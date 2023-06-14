@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\CategoryController;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\HotpepperController;
+
 
 
 // ログイン前　ウェルカムページ表示
@@ -12,28 +12,11 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-// ログイン後　ダッシュボード表示
-Route::get('/dashboard', function () { 
-    $userName = Auth::user()->name;
-    $now = now();
-    $date = $now->toDateString();
-    $formattedDate = Carbon::parse($date)->format('n月j日');
-    $message = '';
-    if ($now->hour >= 6 && $now->hour < 12) {
-        $message = 'おはようございます！今日のランチはもう決めましたか？';
-    } elseif ($now->hour >= 12 && $now->hour < 18) {
-        $message = 'こんにちは！今日のディナーはもう決めましたか？';
-    } else {
-        $message = 'こんばんは！明日のモーニングはもう決めましたか？';
-    }
-    return view('dashboard', [
-        'user_name' => $userName,
-        'date' => $formattedDate,
-        'message' => $message,
-    ]);
-})->name('dashboard');
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [HotpepperController::class,'index'])->name('dashboard');
+    
+
     // 店舗関連ページ
     Route::get('/restaurant', [RestaurantController::class,'index'])->name('top');
     Route::get('/restaurant/show/{id}', [RestaurantController::class, 'show'])->name('restaurant.show');
