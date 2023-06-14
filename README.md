@@ -1,6 +1,10 @@
 ## Gourmet Log
 
 美味しかったレストランをレビューし記録していくシンプルなWebアプリ
+![welcome](https://github.com/Minori-Takeuchi/GourmetLog/assets/119908511/4cbd67cc-3622-4bb1-bc87-455deba846fd)
+![dashboard](https://github.com/Minori-Takeuchi/GourmetLog/assets/119908511/c29b4019-494c-4353-9aa9-e6a7914c7455)
+![top](https://github.com/Minori-Takeuchi/GourmetLog/assets/119908511/278a564a-1bb2-4704-8af0-4bb5532efa42)
+![form](https://github.com/Minori-Takeuchi/GourmetLog/assets/119908511/7ce9e768-3d3f-4cf7-a8df-c617da2d4604)
 
 
 ## 機能一覧
