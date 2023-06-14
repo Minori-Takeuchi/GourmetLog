@@ -24,6 +24,7 @@ Laravel Sail 8.X
 MySQL  
 PHPMyAdmin  
 tailwindcss  
+ホットペッパーグルメサーチAPI  
 
 ### 環境構築
 
