@@ -1,7 +1,9 @@
-<x-guest-layout>
+@extends('layouts.auth')
+
+@section('browser-ttl', 'ログイン')
+
+@section('content')
     <x-auth-card>
-        <x-slot name="logo">
-        </x-slot>
 
         <!-- Session Status -->
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -49,4 +51,4 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+@endsection

@@ -58,6 +58,27 @@ class CategoriesTableSeeder extends Seeder
             'user_id' => 3,
             'name' => 'バー',
         ];
+        Category::create($param);
+        $param = [
+            'user_id' => 1,
+            'name' => '蕎麦屋',
+        ];
+        Category::create($param);
+        $param = [
+            'user_id' => 2,
+            'name' => 'うどん屋',
+        ];
+        Category::create($param);
+        $param = [
+            'user_id' => 3,
+            'name' => '創作料理',
+        ];
+        Category::create($param);
+        $param = [
+            'user_id' => 1,
+            'name' => 'その他',
+        ];
+        Category::create($param);
 
     }
 }

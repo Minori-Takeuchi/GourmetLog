@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\RestaurantRequest;
+use Illuminate\Pagination\Paginator;
 
 
 class RestaurantController extends Controller
@@ -15,26 +16,13 @@ class RestaurantController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $restaurants = Restaurant::where('user_id', $userId)->with(['categories'])->get();
 
-        $formattedRestaurants = $restaurants->map(function ($restaurant) {
-            return [
-                'id' => $restaurant->id,
-                'name' => $restaurant->name,
-                'review' => $restaurant->review,
-                'map_url' => $restaurant->map_url,
-                'comment' => $restaurant->comment,
-                'categories' => $restaurant->categories->map(function ($category) {
-                    return [
-                        'category_id' => $category->id,
-                        'category_name' => $category->name,
-                    ];
-                }),
-            ];
-        });
+        $restaurants = Restaurant::where('user_id', $userId)
+            ->with('categories')
+            ->paginate(10);
 
         return view('restaurant/index', [
-            'restaurants' => $formattedRestaurants,
+            'restaurants' => $restaurants,
         ]);
     }
 
@@ -91,31 +79,16 @@ class RestaurantController extends Controller
         $search = $request->input('search');
         $userId = Auth::id();
 
-        $restaurants = Restaurant::where('user_id', $userId)->with(['categories']);
+        $query = Restaurant::where('user_id', $userId)->with(['categories']);
 
         if (!empty($search)) {
-            $restaurants->where('name', 'LIKE', "%{$search}%");
+            $query->where('name', 'LIKE', "%{$search}%");
         }
 
-         $restaurants = $restaurants->get();
-
-        $formattedRestaurants = $restaurants->map(function ($restaurant) {
-            return [
-                'id' => $restaurant->id,
-                'name' => $restaurant->name,
-                'review' => $restaurant->review,
-                'map_url' => $restaurant->map_url,
-                'comment' => $restaurant->comment,
-                'categories' => $restaurant->categories->map(function ($category) {
-                    return [
-                        'category_name' => $category->name,
-                    ];
-                }),
-            ];
-        });
+        $restaurants = $query->paginate(10);
 
         return view('restaurant/index', [
-            'restaurants' => $formattedRestaurants,
+            'restaurants' => $restaurants,
         ]);
     }
 
@@ -236,6 +209,7 @@ class RestaurantController extends Controller
             }
 
         $restaurantData = [
+            'user_id' => Auth::id(),
             'name' => $request->input('name'),
             'name_katakana' => $request->input('name_katakana'),
             'review' => $request->input('review'),  

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="w-1/2 flex justify-center flex-wrap">
-      <h1 class="text-xl my-8">カテゴリー編集</h1>
+      <h1 class="text-xl my-8 w-full text-center">カテゴリー編集</h1>
       <form  action="/category/update/{id}" method="post">
         @csrf
         <div class="mb-8 w-full">

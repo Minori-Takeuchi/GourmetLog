@@ -1,7 +1,9 @@
-<x-guest-layout>
+@extends('layouts.auth')
+
+@section('browser-ttl', '新規登録')
+
+@section('content')
     <x-auth-card>
-        <x-slot name="logo">
-        </x-slot>
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
@@ -53,4 +55,4 @@
             </div>
         </form>
     </x-auth-card>
-</x-guest-layout>
+@endsection

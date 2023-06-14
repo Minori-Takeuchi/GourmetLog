@@ -14,6 +14,6 @@ class CategoryTagsTableSeeder extends Seeder
      */
     public function run()
     {
-        CategoryTag::factory()->count(30)->create();
+        CategoryTag::factory()->count(80)->create();
     }
 }

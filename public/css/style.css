@@ -24,9 +24,13 @@
 }
 
 .header-nav {
-  justify-content: space-around;
   color: white;
   font-weight: 900;
+  margin-right: 50px;
+}
+
+.header-nav div:first-child {
+  margin-right: 20px;
 }
 
 .header-nav div:hover {
@@ -38,7 +42,7 @@
   font-family: 'Dancing Script', cursive;
   width: 100%;
   position: absolute;
-  top: 40%;
+  top: 30%;
   text-align: center;
   color: rgb(184, 150, 105);
   text-shadow: 1px 1px rgb(93, 77, 57);

@@ -28,18 +28,18 @@
           @foreach($restaurants as $restaurant)
           <tr>
             <td class="border py-2 text-center text-sm">{{ $restaurant['id'] }}</td>
-            <td class="border py-2 text-center text-sm">{{ $restaurant['name'] }}</td>
+            <td class="border px-2 py-2 text-center text-sm">{{ $restaurant['name'] }}</td>
             <td class="border px-2 py-2 text-center text-sm">
               @foreach($restaurant['categories'] as $category)
-              <p>{{ $category['category_name'] }}</p>
+              <p>{{ $category['name'] }}</p>
               @endforeach
             </td>
-              <td class="border py-2 text-center">
+              <td class="border px-2 py-2 text-center">
                 @for ($i = 1; $i <= 5; $i++)
                 @if ($i <= $restaurant['review'])
                 <span class="text-yellow-400 text-sm">&#9733;</span>
                 @else
-                <span class="text-gray-500 text-sm">&#9733;</span> {{-- グレーの星マーク --}}
+                <span class="text-gray-500 text-sm">&#9733;</span>
                 @endif
                 @endfor
               </td>
@@ -73,21 +73,8 @@
           </tbody>
       </table>
     </div>
-    <div class="flex flex-col items-center">
-  <!-- Help text -->
-  <span class="text-sm text-gray-700 dark:text-gray-400">
-      Showing <span class="font-semibold text-gray-900 dark:text-white">1</span> to <span class="font-semibold text-gray-900 dark:text-white">10</span> of <span class="font-semibold text-gray-900 dark:text-white">100</span> Entries
-  </span>
-  <!-- Buttons -->
-  <div class="inline-flex mt-2 xs:mt-0">
-      <button class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Prev
-      </button>
-      <button class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Next
-      </button>
-  </div>
-</div>
+    {{$restaurants->links()}}
+    
   </div>
 </div>
 @endsection

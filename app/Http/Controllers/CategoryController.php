@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CategoryRequest;
+use Illuminate\Pagination\Paginator;
 
 class CategoryController extends Controller
 {
     // カテゴリートップ画面一覧表示
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(10);
         
         return view('category/index', [
             'categories' => $categories,
@@ -30,7 +31,7 @@ class CategoryController extends Controller
             $categories->where('name', 'LIKE', "%{$search}%");
         }
 
-         $categories = $categories->get();
+         $categories = $categories->paginate(10);
 
         return view('category/index', [
             'categories' => $categories,

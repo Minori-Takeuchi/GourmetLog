@@ -3,7 +3,7 @@
 @section('browser-ttl', 'お店新規作成/編集')
 
 @section('content')
-    <div class="restaurant-form w-1/2 flex justify-center">
+    <div class="restaurant-form w-1/2 flex justify-center mt-12">
       <form  action="/restaurant/form/confirm" method="post" enctype="multipart/form-data">
         @csrf
         <!-- 店名 -->

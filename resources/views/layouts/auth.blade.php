@@ -20,7 +20,7 @@
 
 <header class="flex justify-between w-full h-24 bg-teal-400 items-center fixed top-0 z-10">
   <div class="logo">Gourmet Log</div>
-  <nav class="header-nav flex w-1/3">
+  <nav class="header-nav flex">
     <div><a href="{{ route('login') }}">ログイン</a></div>
     <div><a href="{{ route('register') }}">新規登録</a></div>
   </nav>
