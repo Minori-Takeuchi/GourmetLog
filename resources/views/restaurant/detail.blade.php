@@ -59,10 +59,12 @@
             </td>
         </tr>
         @endif
+        @if (!empty($restaurant['tel']))
         <tr>
             <th class="text-xl text-left align-top pr-1">電話番号：</th>
             <td class="pb-8 pl-3">{{ $restaurant['tel'] }}</td>
         </tr>
+        @endif
         <tr>
             <th class="text-xl text-left align-top">コメント：</th>
             <td class="pb-8 pl-3">{{ $restaurant['comment'] }}</td>

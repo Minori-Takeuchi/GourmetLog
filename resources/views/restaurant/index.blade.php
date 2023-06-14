@@ -8,7 +8,7 @@
     <form action="/restaurant/search" method="get" class="flex w-full">
       @csrf
       <input type="text" name="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60  mr-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="店舗名">
-      <button class="bg-blue-500 hover:bg-blue-700 text-white h- py-2 px-4 rounded">検索</button>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">検索</button>
     </form>
     <div>
       <table class="table-auto mt-8">
@@ -45,9 +45,9 @@
               </td>
               <td class="border px-2 py-2 text-center text-sm">
                 @if (strlen($restaurant['comment']) > 10)
-                {{ mb_substr($restaurant['comment'], 0, 10) . '...' }}
+                  {{ mb_substr($restaurant['comment'], 0, 10) . '...' }}
                 @else
-                {{ $restaurant['comment'] }}
+                  {{ $restaurant['comment'] }}
                 @endif
               </td>
               <td class="border py-2 px-2 text-center text-sm">
@@ -71,10 +71,14 @@
             </tr>
             @endforeach
           </tbody>
-      </table>
-    </div>
-    {{$restaurants->links()}}
-    
+        </table>
+      </div>
+      {{$restaurants->links()}}
+      
+      <form action="/restaurant/csv" method="get">
+        @csrf
+        <button type="submit" class="bg-purple-400 hover:bg-purple-700 text-white py-2 px-4 rounded">CSV出力</button>
+      </form>
   </div>
 </div>
 @endsection

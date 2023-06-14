@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\RestaurantRequest;
 use Illuminate\Pagination\Paginator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 
 class RestaurantController extends Controller
@@ -133,15 +134,27 @@ class RestaurantController extends Controller
     {
         // マップ表示
         if($request->map_url) {
-            $decodedUrl = urldecode($request->map_url);
+            $url = $request->map_url;
+            if (strpos($url, 'q=') === false) {
+                preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $url, $matches);
+                $latitude = $matches[1];
+                $longitude = $matches[2];
+                $googleMapsUrl = "https://www.google.com/maps?q={$latitude},{$longitude}";
+            } else {
+                $googleMapsUrl = $url;
+            }
+            
+            $decodedUrl = urldecode($googleMapsUrl);
             $placeUrl = parse_url($decodedUrl, PHP_URL_PATH);
             $queryString = parse_url($decodedUrl, PHP_URL_QUERY);
             parse_str($queryString, $queryParams);
             $address = $queryParams['q'] ?? '';
             $convertedUrl = 'https://maps.google.co.jp/maps?q=' . $address . '&output=embed&t=m';
+
         } else {
             $convertedUrl = null;
         }
+
 
         // 画像を仮ストレージへ保存
         if ($request->hasFile('food_picture')) {
@@ -243,6 +256,31 @@ class RestaurantController extends Controller
         return back();
     }
 
+    // CSVダウンロード
+    public function downloadCsv()
+    {
+        $userId = Auth::id();
+        $restaurants = Restaurant::where('user_id', $userId)->get();
 
+        $csvHeader = ['id','user_id','name','name_katakana','review','food_picture','map_url','tel','comment'];
+
+        $csvData = $restaurants->toArray();
+
+        $response = new StreamedResponse(function () use ($csvHeader, $csvData) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, $csvHeader);
+
+            foreach ($csvData as $row) {
+                fputcsv($handle, $row);
+            }
+
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="restaurants.csv"',
+        ]);
+
+        return $response;
+    }
 
 }

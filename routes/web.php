@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/restaurant/form/confirm', [RestaurantController::class, 'confirm'])->name('restaurant.confirm');
     Route::post('/restaurant/form/upsert', [RestaurantController::class, 'upsert'])->name('restaurant.upsert');
     Route::post('/restaurant/delete/{id}', [RestaurantController::class, 'delete'])->name('restaurant.delete');
+    Route::get('/restaurant/csv', [RestaurantController::class, 'downloadCsv'])->name('restaurant.csv');
 
     // カテゴリー関連ページ
     Route::get('/category', [CategoryController::class,'index'])->name('category.top');

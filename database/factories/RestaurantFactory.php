@@ -13,7 +13,7 @@ class RestaurantFactory extends Factory
     {
         return [
             'user_id' => $this->faker->numberBetween(1, 3),
-            'name' => $this->faker->streetName(),
+            'name' => $this->faker->lastName(),
             'name_katakana' => 'テンメイフリガナ',
             'review' => $this->faker->numberBetween(1, 5),
             'food_picture' => $this->faker->imageUrl(),
